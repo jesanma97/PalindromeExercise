@@ -11,23 +11,28 @@ public class PalindromeExerciseMain {
 
         //Read file and split the text inside it
         String textFile = getTextFromFile("src/palindromeExercise.txt").toLowerCase();
-        String[] wordsFromFile = textFile.split("(\\s|[’-]|[~!@#$%^&*()_+{}:;,<>/?-])");
+        if(textFile.isEmpty()){
+            throw new RuntimeException("File is empty and no contains any text");
+        }else{
+            String[] wordsFromFile = textFile.split("(\\s|[’-]|[~!@#$%^&*()_+{}:;,<>/?-])");
 
-        //Check if word is palindrome and its number of ocurrences in the text
-        HashMap<String, Long> data = new HashMap<String, Long>();
-        Arrays.stream(wordsFromFile).filter(word -> isPalindrome(word)).forEach(word -> {
-            long numberOcurrences = Arrays.stream(wordsFromFile).filter(wordRepeated -> wordRepeated.equals(word)).count();
-            data.put(word, numberOcurrences);
-        });
+            //Check if word is palindrome and its number of ocurrences in the text
+            HashMap<String, Long> data = new HashMap<String, Long>();
+            Arrays.stream(wordsFromFile).filter(word -> isPalindrome(word)).forEach(word -> {
+                long numberOcurrences = Arrays.stream(wordsFromFile).filter(wordRepeated -> wordRepeated.equals(word)).count();
+                data.put(word, numberOcurrences);
+            });
 
-        //Reorder HashMap by value
-        List<Map.Entry<String, Long>> reorderByValue = data.entrySet().stream().sorted((l1,l2) -> Long.compare(l2.getValue(), l1.getValue())).collect(Collectors.toList());
+            //Reorder HashMap by value
+            List<Map.Entry<String, Long>> reorderByValue = data.entrySet().stream().sorted((l1,l2) -> Long.compare(l2.getValue(), l1.getValue())).collect(Collectors.toList());
 
-        //Reorder List by key
-        reorderLexicographically(reorderByValue);
+            //Reorder List by key
+            reorderLexicographically(reorderByValue);
 
-        //Print result
-        reorderByValue.forEach(entry -> System.out.println(entry.getKey() + "-> " + entry.getValue()));
+            //Print result
+            reorderByValue.forEach(entry -> System.out.println(entry.getKey() + "-> " + entry.getValue()));
+        }
+
 
     }
 
